@@ -9,7 +9,6 @@
     <DockerfileContext>.</DockerfileContext>
     <Authors>Pototsky Alexander</Authors>
     <Company>Pototsky Alexander</Company>
-    <Copyright>Pototsky Alexander</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

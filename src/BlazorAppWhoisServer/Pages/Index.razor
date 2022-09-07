@@ -1,21 +1,56 @@
 ﻿@page "/" 
 @using WhoisObserver
+<link href="/css/pages/IndexStyle.css" rel="stylesheet" type="text/css">
 
 <PageTitle>WHOIS Demo</PageTitle>
 
 <h1>WHOIS demo Blazor Server v0.1</h1>
 
-There will probably be bugs.
+<div class="discription-txt col-12"><p>There will probably be bugs.</p></div>
 
-<div class="general-window col">
-    <p>
-        Here is info from API.
-    </p>
+<div class="general-window container">
+    <div class="versoin-info col-12">
+        <p>
+          Here is info from API.
+        </p>
+    </div>
+    
+    <div class="input-group">
+
+        <div class="mb-3">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>ip-api</option>
+                <option value="1">Ru-Center</option>
+                <option value="2">Whois.ru</option>
+                @*<option value="3">Three</option>*@
+            </select>
+        </div>
+        <div class ="mb-3">
+            <input type="text" class="form-control"
+                   placeholder="hostname/ip-address" aria-label="hostname/ip-address" @bind-value="@valueInput">
+        </div>
+        <div class="mb-3">
+            <button type="button" class=" btn btn-outline-primary" onclick="@Demo1">Search</button>
+        </div>
+    </div>
+   
+    <div class="col">
+        <p>Result : @resultJson</p>
+    </div>
 </div>
 
 
 @code{
-    //WhoisObserver test1 = new WhoisObserver()
+    string resultJson = string.Empty;
+    string valueInput = string.Empty;
+
+    private async void Demo1()
+    {
+        WhoisClient testClient = new();
+        string result = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.IpApi);
+
+        resultJson = result;
+    }
 }
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@
