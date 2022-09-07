@@ -1,9 +1,21 @@
-﻿@page "/"
+﻿@page "/" 
+@using WhoisObserver
 
-<PageTitle>Index</PageTitle>
+<PageTitle>WHOIS Demo</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>WHOIS demo Blazor Server v0.1</h1>
 
-Welcome to your new app.
+There will probably be bugs.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div class="general-window col">
+    <p>
+        Here is info from API.
+    </p>
+</div>
+
+
+@code{
+    //WhoisObserver test1 = new WhoisObserver()
+}
+
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
