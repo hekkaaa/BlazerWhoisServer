@@ -1,7 +1,7 @@
 ﻿namespace BlazorAppWhoisServer.Data
 {
     public class TestService
-    {   
+    {
 
         public TestService()
         {

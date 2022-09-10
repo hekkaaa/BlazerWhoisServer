@@ -15,27 +15,28 @@
         </p>
     </div>
     
-    <div class="input-group">
+    <form class="row g-3">
 
-        <div class="mb-3">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>ip-api</option>
-                <option value="1">Ru-Center</option>
-                <option value="2">Whois.ru</option>
-                @*<option value="3">Three</option>*@
+        <div class="col-auto">
+            <select class="form-select" aria-label="Default select example" @onchange="OnSelectItem">
+             
+                @foreach (var template in templates)
+                {
+                    <option value=@template>@template</option>
+                }
             </select>
         </div>
-        <div class ="mb-3">
+        <div class="col-auto">
             <input type="text" class="form-control"
                    placeholder="hostname/ip-address" aria-label="hostname/ip-address" @bind-value="@valueInput">
         </div>
-        <div class="mb-3">
-            <button type="button" class=" btn btn-outline-primary" onclick="@Demo1">Search</button>
+        <div class="col-auto">
+            <button type="button" class=" btn btn-outline-primary" onclick="@RequestForWhoisClientApi">Search</button>
         </div>
-    </div>
-   
+    </form>
+    <div class="col-12 split-div"/>
     <div class="col">
-        <p>Result : @resultJson</p>
+        <p><b>RESULT :</b> @resultJson</p>
     </div>
 </div>
 
@@ -43,13 +44,21 @@
 @code{
     string resultJson = string.Empty;
     string valueInput = string.Empty;
+    string SelectedStringApiServer = string.Empty;
 
-    private async void Demo1()
+    List<string> templates = new List<string>() { "ip-api", "Ru-Center", "Whois.ru" };
+
+    private async void RequestForWhoisClientApi()
     {
         WhoisClient testClient = new();
         string result = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.IpApi);
 
         resultJson = result;
+    }
+
+    private void OnSelectItem(ChangeEventArgs e)
+    {
+        SelectedStringApiServer = e.Value!.ToString()!;
     }
 }
 
