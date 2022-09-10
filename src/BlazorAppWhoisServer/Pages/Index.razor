@@ -4,7 +4,7 @@
 
 <PageTitle>WHOIS Demo</PageTitle>
 
-<h1>WHOIS demo Blazor Server v0.1</h1>
+<h1>WHOIS demo Blazor Server v0.2</h1>
 
 <div class="discription-txt col-12"><p>There will probably be bugs.</p></div>
 
@@ -21,9 +21,10 @@
             <select class="form-select" aria-label="Default select example" @onchange="OnSelectItem">
              
                 @foreach (var template in templates)
-                {
+                {  
                     <option value=@template>@template</option>
                 }
+
             </select>
         </div>
         <div class="col-auto">
@@ -44,16 +45,39 @@
 @code{
     string resultJson = string.Empty;
     string valueInput = string.Empty;
-    string SelectedStringApiServer = string.Empty;
+    string SelectedStringApiServer = "ip-api";
 
     List<string> templates = new List<string>() { "ip-api", "Ru-Center", "Whois.ru" };
 
     private async void RequestForWhoisClientApi()
     {
         WhoisClient testClient = new();
-        string result = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.IpApi);
+        try
+        {
+            switch (SelectedStringApiServer)
+            {
+                case "ip-api":
+                    resultJson = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.IpApi);
+                    break;
 
-        resultJson = result;
+                case "Ru-Center":
+                    resultJson = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.RuCenter);
+                    break;
+
+                case "Whois.ru":
+                    resultJson = await testClient.GetResponceOriginalJsonAsync(valueInput, WhoisObserver.Services.Model.ServersClientFamily.WhoisRu);
+                    break;
+
+                default:
+                    resultJson = string.Empty;
+                    break;
+            }
+        }
+        catch(Exception ex)
+        {
+            resultJson = ex.Message;
+        }
+  
     }
 
     private void OnSelectItem(ChangeEventArgs e)
