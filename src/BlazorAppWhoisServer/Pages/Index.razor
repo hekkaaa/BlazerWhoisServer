@@ -1,4 +1,5 @@
 ﻿@page "/" 
+@using BlazorAppWhoisServer.Model
 @using WhoisObserver
 <link href="/css/pages/IndexStyle.css" rel="stylesheet" type="text/css">
 
@@ -27,10 +28,22 @@
 
             </select>
         </div>
+
         <div class="col-auto">
+            <EditForm class="form-control" placeholder="hostname/ip-address" aria-label="hostname/ip-address"
+                      Model="@hosntameModel" OnValidSubmit="@HandleValidSubmit" @bind-value="@valueInput">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <InputText id="name" @bind-Value="hosntameModel.Hostname" />
+               
+            </EditForm>
+        </div>
+      
+      @*  <div class="col-auto">
             <input type="text" class="form-control"
                    placeholder="hostname/ip-address" aria-label="hostname/ip-address" @bind-value="@valueInput">
-        </div>
+        </div>*@
         <div class="col-auto">
             <button type="button" class=" btn btn-outline-primary" onclick="@RequestForWhoisClientApi">Search</button>
         </div>
@@ -39,6 +52,9 @@
     <div class="col">
         <p><b>RESULT :</b> @resultJson</p>
     </div>
+
+
+  
 </div>
 
 
@@ -83,6 +99,16 @@
     private void OnSelectItem(ChangeEventArgs e)
     {
         SelectedStringApiServer = e.Value!.ToString()!;
+    }
+
+    ///
+    private HosntameModel hosntameModel = new();
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("HandleValidSubmit called");
+
+        // Process the valid form
     }
 }
 
