@@ -19,6 +19,7 @@
     <form class="row g-3">
 
         <div class="col-auto">
+
             <select class="form-select" aria-label="Default select example" @onchange="OnSelectItem">
              
                 @foreach (var template in templates)
@@ -32,11 +33,12 @@
         <div class="col-auto">
             <EditForm class="form-control" placeholder="hostname/ip-address" aria-label="hostname/ip-address"
                       Model="@hosntameModel" OnValidSubmit="@HandleValidSubmit" @bind-value="@valueInput">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
 
-                <InputText id="name" @bind-Value="hosntameModel.Hostname" />
-               
+                <DataAnnotationsValidator />
+                
+                <InputText id="name" @bind-Value="hosntameModel.Hostname" placeholder="hostname/ip-address" />
+                <ValidationMessage For="@(() => hosntameModel.Hostname)"/>
+
             </EditForm>
         </div>
       
@@ -62,6 +64,7 @@
     string resultJson = string.Empty;
     string valueInput = string.Empty;
     string SelectedStringApiServer = "ip-api";
+    private HosntameModel hosntameModel = new();
 
     List<string> templates = new List<string>() { "ip-api", "Ru-Center", "Whois.ru" };
 
@@ -102,7 +105,6 @@
     }
 
     ///
-    private HosntameModel hosntameModel = new();
 
     private void HandleValidSubmit()
     {
